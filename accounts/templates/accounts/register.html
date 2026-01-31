@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+<!-- This template inherits the layout from base.html -->
+
+{% block content %}
+<!-- Content inside this block will be inserted into base.html -->
+
+<h2>Register</h2>
+<!-- Page title -->
+
+<form method="POST">
+  <!-- POST method is used to securely send form data to the server -->
+
+  {% csrf_token %}
+  <!-- CSRF token is mandatory in Django forms for security -->
+
+  {{ form.as_p }}
+  <!--
+    Displays the Django registration form automatically.
+    Each field is wrapped inside <p> tags.
+    Fields include: username, password, confirm password.
+  -->
+
+  <button class="btn btn-success">Register</button>
+  <!-- Submit button to create a new account -->
+</form>
+
+<p class="mt-3">
+  <!-- Adds spacing above the text using Bootstrap margin-top -->
+
+  Already have an account?
+  <a href="{% url 'login' %}">Login</a>
+  <!--
+    Redirects user to the login page.
+    'login' is the URL name defined in accounts/urls.py.
+  -->
+</p>
+
+{% endblock %}
+<!-- End of content block -->

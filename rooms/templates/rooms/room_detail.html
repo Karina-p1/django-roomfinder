@@ -1,0 +1,40 @@
+{% extends 'base.html' %}  <!-- Inherit the base template (navbar, container, etc.) -->
+
+{% block content %}         <!-- Start content block to fill base.html -->
+
+<!-- Room title -->
+<h1>{{ room.title }}</h1>
+
+<!-- Room description -->
+<p>{{ room.description }}</p>
+
+<!-- Room location -->
+<p>Location: {{ room.location }}</p>
+
+<!-- Room type (Single, Double, Shared) -->
+<p>Type: {{ room.room_type }}</p>
+
+<!-- Room price -->
+<p>Price: Rs. {{ room.price }}</p>
+
+<!-- Section for room images -->
+<h3>Images</h3>
+{% for img in room.images.all %}
+  <!-- Display each uploaded image with some spacing & outputs the URL of each image stored in media/.-->
+  <img src="{{ img.image.url }}" width="200" class="mb-2">
+{% endfor %}
+
+<!-- Room owner details -->
+<p>Owner: {{ room.owner_name }}</p>
+<p>Contact: {{ room.contact_number }}</p>
+
+<!-- Only show edit and delete buttons if the logged-in user is the owner -->
+{% if user == room.owner %}
+  <!-- Button to edit the room -->
+  <a href="{% url 'edit_room' room.id %}" class="btn btn-warning btn-sm">Edit</a>
+  
+  <!-- Button to delete the room -->
+  <a href="{% url 'delete_room' room.id %}" class="btn btn-danger btn-sm">Delete</a>
+{% endif %}
+
+{% endblock %}  <!-- End content block -->

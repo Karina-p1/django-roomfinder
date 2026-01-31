@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2>Add Room</h2>
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input name="title" class="form-control mb-2" placeholder="Title" required>
+    <textarea name="description" class="form-control mb-2" placeholder="Description" required></textarea>
+    <input name="price" type="number" class="form-control mb-2" placeholder="Price" required>
+    
+    <select name="location" class="form-select mb-2" required>
+        <option>Kathmandu</option>
+        <option>Pokhara</option>
+        <option>Biratnagar</option>
+    </select>
+
+    <select name="room_type" class="form-select mb-2" required>
+        <option>Single</option>
+        <option>Double</option>
+        <option>Shared</option>
+    </select>
+
+    <input name="owner_name" class="form-control mb-2" placeholder="Owner Name" required>
+    <input name="contact_number" class="form-control mb-2" placeholder="Contact Number" required>
+    <input name="available_from" type="date" class="form-control mb-2" required>
+    <input type="file" name="images" multiple class="form-control mb-3">
+
+    <button type="submit" class="btn btn-success">Save</button>
+</form>
+
+{% endblock %}

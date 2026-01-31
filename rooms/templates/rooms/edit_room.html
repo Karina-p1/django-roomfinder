@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+<!-- Inherit the base template (navbar, container, etc.) -->
+
+{% block content %}
+<!-- Start content block to fill base.html -->
+
+<!-- Page heading -->
+<h2>Edit Room</h2>
+
+<!-- Form to edit an existing room -->
+<!-- method="POST" sends updated data to the server & You must add enctype for file upload -->
+<form method="POST" enctype="multipart/form-data">
+  <!-- CSRF token for security -->
+  {% csrf_token %}
+
+  <!-- value="{{ room.field }}" → pre-fills the form with the room’s existing data, so the user can edit.
+
+<option selected>{{ room.location }}</option> → shows the current location as selected in the dropdown. -->
+
+  <!-- Room title input pre-filled with existing value -->
+  <input
+    name="title"
+    class="form-control mb-2"
+    value="{{ room.title }}"
+    required
+  />
+
+  <!-- Room description input pre-filled with existing value -->
+  <textarea name="description" class="form-control mb-2" required>
+{{ room.description }}</textarea
+  >
+
+  <!-- Room price input pre-filled with existing value -->
+  <input
+    type="number"
+    name="price"
+    class="form-control mb-2"
+    value="{{ room.price }}"
+    required
+  />
+
+  <!-- Room location dropdown pre-selected with existing value -->
+  <select name="location" class="form-select mb-2" required>
+    <option
+      value="Kathmandu"
+      {%
+      if
+      room.location=""
+      ="Kathmandu"
+      %}selected{%
+      endif
+      %}
+    >
+      Kathmandu
+    </option>
+    <option
+      value="Pokhara"
+      {%
+      if
+      room.location=""
+      ="Pokhara"
+      %}selected{%
+      endif
+      %}
+    >
+      Pokhara
+    </option>
+    <option
+      value="Biratnagar"
+      {%
+      if
+      room.location=""
+      ="Biratnagar"
+      %}selected{%
+      endif
+      %}
+    >
+      Biratnagar
+    </option>
+  </select>
+
+  <!-- Room type dropdown pre-selected with existing value -->
+  <select name="room_type" class="form-select mb-2" required>
+    <option
+      value="Single"
+      {%
+      if
+      room.room_type=""
+      ="Single"
+      %}selected{%
+      endif
+      %}
+    >
+      Single
+    </option>
+    <option
+      value="Double"
+      {%
+      if
+      room.room_type=""
+      ="Double"
+      %}selected{%
+      endif
+      %}
+    >
+      Double
+    </option>
+    <option
+      value="Shared"
+      {%
+      if
+      room.room_type=""
+      ="Shared"
+      %}selected{%
+      endif
+      %}
+    >
+      Shared
+    </option>
+  </select>
+
+  <!-- Owner name input pre-filled with existing value -->
+  <input
+    name="owner_name"
+    class="form-control mb-2"
+    value="{{ room.owner_name }}"
+    required
+  />
+
+  <!-- Contact number input pre-filled with existing value -->
+  <input
+    name="contact_number"
+    class="form-control mb-2"
+    value="{{ room.contact_number }}"
+    required
+  />
+
+  <!-- Available from date input pre-filled with existing value -->
+  <label for="available_from">Available From</label>
+  <input
+    type="date"
+    name="available_from"
+    class="form-control mb-2"
+    value="{{ room.available_from|date:'Y-m-d' }}"
+    required
+  />
+
+  <!-- Existing images -->
+  <h5 class="mt-3">Current Images</h5>
+  {% for img in room.images.all %}
+  <div class="mb-2">
+    <img src="{{ img.image.url }}" width="150" class="me-2" />
+    <label>
+      <input type="checkbox" name="delete_images" value="{{ img.id }}" />
+      Remove
+    </label>
+  </div>
+  {% endfor %}
+
+  <!-- Upload new images -->
+  <h5 class="mt-3">Update / Add Images</h5>
+  <input type="file" name="images" class="form-control mb-3" multiple />
+
+  <!-- Now UI will show:
+-existing images
+-option to remove them
+-option to upload new ones -->
+
+  <!-- Submit button to update the room -->
+  <button type="submit" class="btn btn-success">Update</button>
+</form>
+
+{% endblock %}
+<!-- End content block -->

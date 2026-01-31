@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+<!-- This template inherits layout (navbar, container, etc.) from base.html -->
+
+{% block content %}
+<!-- Start of page-specific content -->
+
+<!-- ================= DASHBOARD TITLE ================= -->
+<h2 class="mb-4">Dashboard</h2>
+
+<!-- ================= TOP SECTION: NUMBERS / STATS ONLY ================= -->
+<!-- Bootstrap row to place cards side by side -->
+<div class="row mb-5">
+  <!-- ===== Total Rooms Card ===== -->
+  <div class="col-md-4">
+    <!-- Card with shadow and centered text -->
+    <div class="card text-center shadow">
+      <div class="card-body">
+        <!-- Card heading -->
+        <h6 class="text-muted">Total Rooms</h6>
+        <!-- Display total number of rooms passed from view -->
+        <h2 class="fw-bold">{{ total_rooms }}</h2>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Most Popular Room Type Card ===== -->
+  <div class="col-md-4">
+    <div class="card text-center shadow">
+      <div class="card-body">
+        <h6 class="text-muted">Most Popular Type</h6>
+
+        <!-- Check if popular_type exists -->
+        <h2 class="fw-bold">
+          {% if popular_type %}
+          <!-- Display room type -->
+          {{ popular_type.room_type }} {% else %}
+          <!-- If no data is available -->
+          N/A {% endif %}
+        </h2>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Top Location Card ===== -->
+  <div class="col-md-4">
+    <div class="card text-center shadow">
+      <div class="card-body">
+        <h6 class="text-muted">Top Location</h6>
+
+        <!-- Check if popular_location exists -->
+        <h2 class="fw-bold">
+          {% if popular_location %}
+          <!-- Display location name -->
+          {{ popular_location.location }} {% else %}
+          <!-- Fallback text -->
+          N/A {% endif %}
+        </h2>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End of top stats section -->
+
+<!-- ================= CHARTS SECTION ================= -->
+<!-- New row for charts -->
+<div class="row">
+  <!-- ===== Rooms by Type Chart ===== -->
+  <div class="col-md-6 mb-4">
+    <!-- Chart title -->
+    <h5 class="text-center mb-3">Rooms by Type</h5>
+
+    <!-- Base64 image for type chart generated in views.py -->
+    <img
+      src="data:image/png;base64,{{ type_chart }}"
+      class="img-fluid shadow"
+      alt="Rooms by Type Chart"
+    />
+  </div>
+
+  <!-- ===== Rooms by Location Chart ===== -->
+  <div class="col-md-6 mb-4">
+    <!-- Chart title -->
+    <h5 class="text-center mb-3">Rooms by Location</h5>
+
+    <!-- Base64 image for location chart generated in views.py -->
+    <img
+      src="data:image/png;base64,{{ location_chart }}"
+      class="img-fluid shadow"
+      alt="Rooms by Location Chart"
+    />
+  </div>
+</div>
+<!-- End of charts section -->
+
+{% endblock %}
+<!-- End of content block -->

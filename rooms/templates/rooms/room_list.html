@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+<!-- Inherit navbar, layout, and styles from base.html -->
+
+{% block content %}
+<!-- Start content block -->
+
+<!-- ================= PAGE TITLE ================= -->
+<h1 class="mb-4">Available Rooms</h1>
+
+<!-- ================= ADD ROOM BUTTON ================= -->
+<!-- Redirects to add room page -->
+<a href="{% url 'add_room' %}" class="btn btn-primary mb-3"> Add Room </a>
+
+<!-- ================= SEARCH / FILTER FORM ================= -->
+<!-- GET method is used so filters appear in URL -->
+<form method="GET" class="row mb-4">
+  <!-- Filter by Location -->
+  <div class="col-md-4">
+    <select name="location" class="form-select">
+      <option value="">All Locations</option>
+      <option>Kathmandu</option>
+      <option>Pokhara</option>
+      <option>Biratnagar</option>
+    </select>
+  </div>
+
+  <!-- Filter by Room Type -->
+  <div class="col-md-4">
+    <select name="room_type" class="form-select">
+      <option value="">All Types</option>
+      <option>Single</option>
+      <option>Double</option>
+      <option>Shared</option>
+    </select>
+  </div>
+
+  <!-- Search Button -->
+  <div class="col-md-4">
+    <button type="submit" class="btn btn-success w-100">Search</button>
+  </div>
+</form>
+
+<!-- ================= ROOM LIST SECTION ================= -->
+<div class="row">
+  <!-- Loop through rooms sent from views.py -->
+  {% for room in rooms %}
+  <div class="col-md-4">
+    <div class="card mb-4 shadow">
+      <!-- ===== Room Image ===== -->
+      <!-- Show first image if room has images -->
+      {% if room.images.first %}
+      <img
+        src="{{ room.images.first.image.url }}"
+        class="card-img-top"
+        alt="Room Image"
+      />
+      {% endif %}
+
+      <!-- ===== Room Details ===== -->
+      <div class="card-body">
+        <!-- Room title -->
+        <h5 class="card-title">{{ room.title }}</h5>
+
+        <!-- Location and room type -->
+        <p class="mb-1">{{ room.location }} | {{ room.room_type }}</p>
+
+        <!-- Price -->
+        <p class="fw-bold">Rs. {{ room.price }}</p>
+
+        <!-- View details button -->
+        <a
+          href="{% url 'room_detail' room.id %}"
+          class="btn btn-sm btn-outline-primary"
+        >
+          View Details
+        </a>
+      </div>
+    </div>
+  </div>
+
+  {% empty %}
+  <!-- Displayed when no rooms exist -->
+  <p>No rooms available.</p>
+
+  {% endfor %}
+</div>
+<!-- End room list -->
+
+{% endblock %}
+<!-- End content block -->
