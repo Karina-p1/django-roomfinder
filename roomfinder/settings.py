@@ -9,10 +9,11 @@ https://docs.djangoproject.com/en/6.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
-
-import os
-import os  # at the top if not already
 from pathlib import Path
+from dotenv import load_dotenv
+import os
+load_dotenv()
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -86,7 +87,7 @@ WSGI_APPLICATION = 'roomfinder.wsgi.application'
 
 
 SECRET_KEY = os.getenv(
-    "django-insecure-q^y&sx9he8y3jxh(n#5h1o+@ccg+-hf!&wnjtc9@iv$2)=(l3z")
+    "SECRET_KEY", "django-insecure-q^y&sx9he8y3jxh(n#5h1o+@ccg+-hf!&wnjtc9@iv$2)=(l3z")
 DEBUG = os.getenv("DEBUG", "False") == "True"
 
 DATABASES = {
@@ -97,9 +98,11 @@ DATABASES = {
         "PASSWORD": os.getenv("DB_PASSWORD", "npg_X3ZwhrJO7piD"),
         "HOST": os.getenv("DB_HOST", "ep-icy-sea-ahntmauj-pooler.c-3.us-east-1.aws.neon.tech"),
         "PORT": os.getenv("DB_PORT", "5432"),
+        "OPTIONS": {
+            "sslmode": "require",  # Neon requires SSL
+        },
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
