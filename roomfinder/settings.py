@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+import os
+import os  # at the top if not already
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -23,10 +25,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-q^y&sx9he8y3jxh(n#5h1o+@ccg+-hf!&wnjtc9@iv$2)=(l3z'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -44,6 +45,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -75,10 +77,26 @@ WSGI_APPLICATION = 'roomfinder.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+
+SECRET_KEY = os.getenv(
+    "django-insecure-q^y&sx9he8y3jxh(n#5h1o+@ccg+-hf!&wnjtc9@iv$2)=(l3z")
+DEBUG = os.getenv("DEBUG", "False") == "True"
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.getenv("DB_NAME", "neondb"),
+        "USER": os.getenv("DB_USER", "neondb_owner"),
+        "PASSWORD": os.getenv("DB_PASSWORD", "npg_X3ZwhrJO7piD"),
+        "HOST": os.getenv("DB_HOST", "ep-icy-sea-ahntmauj-pooler.c-3.us-east-1.aws.neon.tech"),
+        "PORT": os.getenv("DB_PORT", "5432"),
     }
 }
 
@@ -119,7 +137,6 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-import os
 
 # Media files (uploads)
 MEDIA_URL = '/media/'                      # URL to access media files
@@ -127,4 +144,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Path to store media files
 
 LOGIN_URL = '/accounts/login/'          # where @login_required redirects
 LOGIN_REDIRECT_URL = '/'                # after login, go to homepage
-LOGOUT_REDIRECT_URL = '/accounts/login/' # after logout
+LOGOUT_REDIRECT_URL = '/accounts/login/'  # after logout

@@ -14,9 +14,16 @@ venv/
 *.log
 db.sqlite3
 /media/
+staticfiles/
+
+# Environment
+.env
 
 # VSCode
 .vscode/
+
+# PyCharm
+.idea/
 
 # Mac/Linux
 .DS_Store
