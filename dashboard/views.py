@@ -1,10 +1,12 @@
+import base64                      # Used to convert images to base64 for HTML display
+import io                          # Used for in-memory image storage
+import matplotlib.pyplot as plt   # Used to generate charts
 from django.shortcuts import render
 from django.db.models import Count
 from rooms.models import Room
 
-import matplotlib.pyplot as plt   # Used to generate charts
-import io                          # Used for in-memory image storage
-import base64                      # Used to convert images to base64 for HTML display
+import matplotlib
+matplotlib.use('Agg')  # Use a non-GUI backend for server
 
 
 def dashboard_view(request):
