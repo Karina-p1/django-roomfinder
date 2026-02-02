@@ -1,39 +1,21 @@
 {% extends 'base.html' %}
-<!-- This page inherits the structure and design from base.html -->
 
 {% block content %}
-<!-- All content inside this block replaces the block in base.html -->
+<div class="row justify-content-center">
+  <div class="col-md-5">
+    <div class="card shadow p-4 bg-white">
+      <h2 class="mb-4 text-center" style="color:#6d28d9;">Login</h2>
 
-<h2>Login</h2>
-<!-- Heading of the login page -->
+      <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary w-100">Login</button>
+      </form>
 
-<form method="POST">
-  <!-- Form uses POST method to send login data securely -->
-
-  {% csrf_token %}
-  <!-- CSRF token is required for security in Django forms -->
-
-  {{ form.as_p }}
-  <!--
-    Automatically renders Django AuthenticationForm.
-    Includes username and password fields.
-    Each field is displayed inside paragraph (<p>) tags.
-  -->
-
-  <button class="btn btn-primary">Login</button>
-  <!-- Button to submit login credentials -->
-</form>
-
-<p class="mt-3">
-  <!-- Adds space above the paragraph using Bootstrap margin class -->
-
-  Don’t have an account?
-  <a href="{% url 'register' %}">Register</a>
-  <!--
-    Takes the user to the registration page.
-    'register' is the URL name defined in accounts/urls.py.
-  -->
-</p>
-
+      <p class="mt-3 text-center text-muted">
+        Don’t have an account? <a href="{% url 'register' %}" class="text-decoration-none" style="color:#6d28d9;">Register</a>
+      </p>
+    </div>
+  </div>
+</div>
 {% endblock %}
-<!-- End of content block -->

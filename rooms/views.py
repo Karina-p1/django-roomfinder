@@ -136,3 +136,8 @@ def delete_room(request, id):
 
     # Redirect back to room list
     return redirect('room_list')
+
+def landing_page(request):
+    # Only show rooms that are available
+    rooms = Room.objects.filter(is_available=True)
+    return render(request, 'rooms/landing.html', {'rooms': rooms})

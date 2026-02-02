@@ -26,11 +26,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # Dashboard landing page (for admins)
-    path('', include('dashboard.urls')),  # e.g., http://127.0.0.1:8000/
+    path('dashboard/', include('dashboard.urls')),  # e.g., http://127.0.0.1:8000/
 
     # Rooms app (list, details, add room, etc.)
     # e.g., http://127.0.0.1:8000/rooms/
-    path('rooms/', include('rooms.urls')),
+    path('', include('rooms.urls')),
 
     # Accounts app URLs (register, login, logout)
     path('accounts/', include('accounts.urls')),

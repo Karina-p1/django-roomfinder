@@ -151,3 +151,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Path to store media files
 LOGIN_URL = '/accounts/login/'          # where @login_required redirects
 LOGIN_REDIRECT_URL = '/'                # after login, go to homepage
 LOGOUT_REDIRECT_URL = '/accounts/login/'  # after logout
+
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

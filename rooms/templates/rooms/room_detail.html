@@ -1,40 +1,36 @@
-{% extends 'base.html' %}  <!-- Inherit the base template (navbar, container, etc.) -->
+{% extends 'base.html' %}
 
-{% block content %}         <!-- Start content block to fill base.html -->
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <div class="card shadow p-4 bg-white">
+      <h2 class="mb-3" style="color:#6d28d9;">{{ room.title }}</h2>
+      <p>{{ room.description }}</p>
+      <p><strong>Location:</strong> {{ room.location }}</p>
+      <p><strong>Type:</strong> {{ room.room_type }}</p>
+      <p><strong>Price:</strong> Rs. {{ room.price }}</p>
 
-<!-- Room title -->
-<h1>{{ room.title }}</h1>
+      <h5 class="mt-3">Images</h5>
+      <div class="d-flex flex-wrap gap-2 mb-3">
+        {% for img in room.images.all %}
+          <img src="{{ img.image.url }}" width="180" class="rounded">
+        {% endfor %}
+      </div>
 
-<!-- Room description -->
-<p>{{ room.description }}</p>
+      <p><strong>Owner:</strong> {{ room.owner_name }}</p>
+      <p><strong>Contact:</strong> {{ room.contact_number }}</p>
 
-<!-- Room location -->
-<p>Location: {{ room.location }}</p>
+      {% if user == room.owner %}
+        <a href="{% url 'edit_room' room.id %}" class="btn btn-warning me-2">Edit</a>
+        <a href="{% url 'delete_room' room.id %}" class="btn btn-danger">Delete</a>
+      {% endif %}
 
-<!-- Room type (Single, Double, Shared) -->
-<p>Type: {{ room.room_type }}</p>
-
-<!-- Room price -->
-<p>Price: Rs. {{ room.price }}</p>
-
-<!-- Section for room images -->
-<h3>Images</h3>
-{% for img in room.images.all %}
-  <!-- Display each uploaded image with some spacing & outputs the URL of each image stored in media/.-->
-  <img src="{{ img.image.url }}" width="200" class="mb-2">
-{% endfor %}
-
-<!-- Room owner details -->
-<p>Owner: {{ room.owner_name }}</p>
-<p>Contact: {{ room.contact_number }}</p>
-
-<!-- Only show edit and delete buttons if the logged-in user is the owner -->
-{% if user == room.owner %}
-  <!-- Button to edit the room -->
-  <a href="{% url 'edit_room' room.id %}" class="btn btn-warning btn-sm">Edit</a>
-  
-  <!-- Button to delete the room -->
-  <a href="{% url 'delete_room' room.id %}" class="btn btn-danger btn-sm">Delete</a>
-{% endif %}
-
-{% endblock %}  <!-- End content block -->
+      {% if user.is_authenticated %}
+        <a href="#" class="btn btn-success mt-3">Book Now</a>
+      {% else %}
+        <a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-success mt-3">Book Now</a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

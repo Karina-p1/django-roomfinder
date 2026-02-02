@@ -18,4 +18,7 @@ urlpatterns = [
 
     # URL: /delete/<id>/ → Calls delete_room view to delete a room by its id
     path('delete/<int:id>/', views.delete_room, name='delete_room'),
+
+    # URL: /         → Calls landing_page view to show available rooms
+    path('', views.landing_page, name='landing_page'),
 ]

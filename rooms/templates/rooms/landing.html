@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+  <h1 class="text-center mb-4">Available Rooms</h1>
+  <div class="row">
+    {% for room in rooms %}
+    <div class="col-md-4 mb-4">
+      <div class="card shadow">
+        <!-- Room Images -->
+        {% if room.images.all %}
+          <div id="carousel{{ room.id }}" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              {% for img in room.images.all %}
+              <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <img src="{{ img.image.url }}" class="d-block w-100" style="height:200px; object-fit:cover;">
+              </div>
+              {% endfor %}
+            </div>
+            {% if room.images.count > 1 %}
+            <button class="carousel-control-prev" type="button" data-bs-target="#carousel{{ room.id }}" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carousel{{ room.id }}" data-bs-slide="next">
+              <span class="carousel-control-next-icon"></span>
+            </button>
+            {% endif %}
+          </div>
+        {% endif %}
+
+        <!-- Room Details -->
+        <div class="card-body">
+          <h5 class="card-title">{{ room.title }}</h5>
+          <p class="card-text">{{ room.location }} | {{ room.room_type }}</p>
+          <p class="card-text fw-bold text-success">Rs. {{ room.price }}</p>
+
+          <!-- Book Now Button -->
+          {% if user.is_authenticated %}
+          <a href="{% url 'book_room' room.id %}" class="btn btn-primary w-100">Book Now</a>
+          {% else %}
+          <a href="{% url 'login' %}" class="btn btn-secondary w-100 disabled">Login to Book</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <p class="text-center">No rooms available at the moment.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

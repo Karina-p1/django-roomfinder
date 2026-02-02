@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 # User model is used for authentication (login/register users)
 
 # Room model represents a room listing in the database
+
+
 class Room(models.Model):
 
     # Choices for room type (used as dropdown in forms)
@@ -55,10 +57,14 @@ class Room(models.Model):
 
     # String representation of the room object
     # This is shown in Django admin panel
+
     def __str__(self):
         return self.title
 
 # RoomImage model to store multiple images for each room
+
+
 class RoomImage(models.Model):
-    room = models.ForeignKey(Room, related_name='images', on_delete=models.CASCADE)
+    room = models.ForeignKey(
+        Room, related_name='images', on_delete=models.CASCADE)
     image = models.ImageField(upload_to='rooms/')

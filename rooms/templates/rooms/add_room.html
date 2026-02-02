@@ -1,32 +1,33 @@
 {% extends 'base.html' %}
+
 {% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-7">
+    <div class="card shadow p-4 bg-white">
+      <h2 class="mb-4 text-center" style="color:#6d28d9;">Add Room</h2>
 
-<h2>Add Room</h2>
-
-<form method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    <input name="title" class="form-control mb-2" placeholder="Title" required>
-    <textarea name="description" class="form-control mb-2" placeholder="Description" required></textarea>
-    <input name="price" type="number" class="form-control mb-2" placeholder="Price" required>
-    
-    <select name="location" class="form-select mb-2" required>
-        <option>Kathmandu</option>
-        <option>Pokhara</option>
-        <option>Biratnagar</option>
-    </select>
-
-    <select name="room_type" class="form-select mb-2" required>
-        <option>Single</option>
-        <option>Double</option>
-        <option>Shared</option>
-    </select>
-
-    <input name="owner_name" class="form-control mb-2" placeholder="Owner Name" required>
-    <input name="contact_number" class="form-control mb-2" placeholder="Contact Number" required>
-    <input name="available_from" type="date" class="form-control mb-2" required>
-    <input type="file" name="images" multiple class="form-control mb-3">
-
-    <button type="submit" class="btn btn-success">Save</button>
-</form>
-
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input name="title" class="form-control mb-3" placeholder="Title" required>
+        <textarea name="description" class="form-control mb-3" placeholder="Description" required></textarea>
+        <input type="number" name="price" class="form-control mb-3" placeholder="Price" required>
+        <select name="location" class="form-select mb-3" required>
+          <option>Kathmandu</option>
+          <option>Pokhara</option>
+          <option>Biratnagar</option>
+        </select>
+        <select name="room_type" class="form-select mb-3" required>
+          <option>Single</option>
+          <option>Double</option>
+          <option>Shared</option>
+        </select>
+        <input name="owner_name" class="form-control mb-3" placeholder="Owner Name" required>
+        <input name="contact_number" class="form-control mb-3" placeholder="Contact Number" required>
+        <input type="date" name="available_from" class="form-control mb-3" required>
+        <input type="file" name="images" multiple class="form-control mb-4">
+        <button type="submit" class="btn btn-success w-100">Save</button>
+      </form>
+    </div>
+  </div>
+</div>
 {% endblock %}
