@@ -29,7 +29,7 @@ urlpatterns = [
     path('dashboard/', include('dashboard.urls')),  # e.g., http://127.0.0.1:8000/
 
     # Rooms app (list, details, add room, etc.)
-    # e.g., http://127.0.0.1:8000/rooms/
+    # e.g., http://127.0.0.1:8000/rooms/  
     path('', include('rooms.urls')),
 
     # Accounts app URLs (register, login, logout)
@@ -45,6 +45,6 @@ urlpatterns = [
 ]
 
 # Serve media files during development
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL,
-                          document_root=settings.MEDIA_ROOT)
+# if settings.DEBUG:
+#     urlpatterns += static(settings.MEDIA_URL,
+#                           document_root=settings.MEDIA_ROOT)

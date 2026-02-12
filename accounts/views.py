@@ -1,47 +1,77 @@
-# render: render HTML templates; redirect: redirect to another page
+# Import functions to render templates, redirect users, and authenticate
 from django.shortcuts import render, redirect
-# built-in forms for signup/login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth import login, logout  # functions to log in/out users
+from django.contrib import messages  # For flash messages
 
 # -------------------------------
-# REGISTER VIEW
+# USER REGISTRATION VIEW
 # -------------------------------
-
 def register(request):
-    # Create a form instance; if POST data exists, populate it with that data
+    """
+    Handles user registration.
+
+    - Displays a registration form
+    - Validates and saves new users
+    - Shows success message after registration
+    """
+    # Create a registration form; populate with POST data if submitted
     form = UserCreationForm(request.POST or None)
 
-    # Check if the submitted form is valid
-    if form.is_valid():
+    if form.is_valid():  # Check if submitted form is valid
         user = form.save()  # Save the new user to the database
-        login(request, user)  # Log in the newly registered user automatically
-        # Redirect to 'room_list' view after successful registration
-        return redirect('room_list')
+        messages.success(request, "Registration successful. You can log in now.")  # Flash message
+        return redirect('login')  # Redirect to login page after registration
 
     # If GET request or form invalid, render the registration page with the form
     return render(request, 'accounts/register.html', {'form': form})
 
 
 # -------------------------------
-# LOGIN VIEW
+# USER LOGIN VIEW
 # -------------------------------
 def user_login(request):
-    # Create an AuthenticationForm; bind POST data if submitted
-    form = AuthenticationForm(request, data=request.POST or None)
+    """
+    Handles user login with role-based redirection.
 
-    # If the form is valid (credentials correct)
-    if form.is_valid():
-        login(request, form.get_user())  # Log in the user
-        return redirect('room_list')  # Redirect to 'room_list' after login
+    - Authenticates credentials
+    - Checks selected role against user type
+    - Redirects admin users to admin dashboard
+    - Redirects regular customers to room listing
+    """
+    if request.method == 'POST':
+        # Get username, password, and role from submitted form
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        role = request.POST.get('role')  # 'admin' or 'customer'
 
-    # If GET request or credentials are wrong, render login page with the form
-    return render(request, 'accounts/login.html', {'form': form})
+        # Authenticate user credentials
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            # Role-based redirection
+            if role == 'admin' and (user.is_staff or user.is_superuser):
+                login(request, user)  # Log in the admin user
+                return redirect('dashboard')  # Redirect to admin dashboard
+            elif role == 'customer' and not (user.is_staff or user.is_superuser):
+                login(request, user)  # Log in the customer
+                return redirect('room_list')  # Redirect to customer homepage
+            else:
+                messages.error(request, "Selected role does not match your account.")
+        else:
+            messages.error(request, "Invalid username or password.")
+
+    # For GET request or invalid login, render login page
+    return render(request, 'accounts/login.html')
 
 
 # -------------------------------
-# LOGOUT VIEW
+# USER LOGOUT VIEW
 # -------------------------------
 def user_logout(request):
-    logout(request)  # Log out the currently logged-in user
-    return redirect('login')  # Redirect to login page after logout
+    """
+    Logs out the current user and redirects to login page with a message.
+    """
+    logout(request)  # Log out user
+    messages.info(request, "Logged out successfully.")  # Flash message
+    return redirect('login')

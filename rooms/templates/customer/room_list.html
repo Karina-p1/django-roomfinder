@@ -3,7 +3,7 @@
 {% block content %}
 <h1 class="mb-4 text-center" style="color:#6d28d9;">Available Rooms</h1>
 
-{% if user.is_authenticated %}
+{% if user.is_authenticated and user.is_staff%}
 <a href="{% url 'add_room' %}" class="btn btn-primary mb-4">Add Room</a>
 {% endif %}
 

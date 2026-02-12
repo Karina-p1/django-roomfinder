@@ -1,24 +1,47 @@
-from django.urls import path         # Import path function to define URL routes
-from . import views                  # Import views from this app
+from django.urls import path
+from . import views
 
-# List of URL patterns for this app
 urlpatterns = [
-    # URL: /         → Calls room_list view to show all rooms
-    path('', views.room_list, name='room_list'),
+path('', views.room_list, name='room_list'),  # Homepage
+    # =====================================================
+    # AUTHENTICATION
+    # =====================================================
+    path('login/', views.login_view, name='login'),
+    path('logout/', views.logout_view, name='logout'),
 
-    # URL: /add/     → Calls add_room view to add a new room
-    path('add/', views.add_room, name='add_room'),
 
-    # URL: /<id>/    → Calls room_detail view to show details of a specific room
-    # <int:id> captures a number from the URL and passes it to the view
-    path('<int:id>/', views.room_detail, name='room_detail'),
-    
-    # URL: /edit/<id>/ → Calls edit_room view to edit a room by its id
-    path('edit/<int:id>/', views.edit_room, name='edit_room'),   
+    # =====================================================
+    # ADMIN SECTION
+    # =====================================================
 
-    # URL: /delete/<id>/ → Calls delete_room view to delete a room by its id
-    path('delete/<int:id>/', views.delete_room, name='delete_room'),
+    # Dashboard
+    path('dashboard/', views.dashboard, name='dashboard'),
 
-    # URL: /         → Calls landing_page view to show available rooms
-    path('', views.landing_page, name='landing_page'),
+    # Room management
+    path('manage-rooms/', views.manage_rooms, name='manage_rooms'),
+    path('add-room/', views.add_room, name='add_room'),
+    path('edit-room/<int:id>/', views.edit_room, name='edit_room'),
+    path('delete-room/<int:id>/', views.delete_room, name='delete_room'),
+
+    # Booking management
+    path('manage-bookings/', views.manage_bookings, name='manage_bookings'),
+    path('approve/<int:booking_id>/', views.approve_booking, name='approve_booking'),
+    path('reject/<int:booking_id>/', views.reject_booking, name='reject_booking'),
+
+
+    # =====================================================
+    # CUSTOMER SECTION
+    # =====================================================
+
+    # Customer dashboard
+    path('customer/dashboard/', views.customer_dashboard, name='customer_dashboard'),
+
+    # Room browsing
+    path('', views.room_list, name='room_list'),  # Home page
+    path('room/<int:id>/', views.room_detail, name='room_detail'),
+
+    # Booking actions
+    path('book/<int:id>/', views.book_room, name='book_room'),
+    path('my-bookings/', views.my_bookings, name='my_bookings'),
+    path('cancel/<int:booking_id>/', views.cancel_booking, name='cancel_booking'),
 ]

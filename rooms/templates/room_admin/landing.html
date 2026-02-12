@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 <div class="container mt-5">
@@ -8,25 +9,28 @@
     <div class="col-md-4 mb-4">
       <div class="card shadow">
         <!-- Room Images -->
-        {% if room.images.all %}
-          <div id="carousel{{ room.id }}" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner">
-              {% for img in room.images.all %}
-              <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                <img src="{{ img.image.url }}" class="d-block w-100" style="height:200px; object-fit:cover;">
-              </div>
-              {% endfor %}
-            </div>
-            {% if room.images.count > 1 %}
-            <button class="carousel-control-prev" type="button" data-bs-target="#carousel{{ room.id }}" data-bs-slide="prev">
-              <span class="carousel-control-prev-icon"></span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carousel{{ room.id }}" data-bs-slide="next">
-              <span class="carousel-control-next-icon"></span>
-            </button>
-            {% endif %}
-          </div>
-        {% endif %}
+{% if room.images.all %}
+  <div id="carousel{{ room.id }}" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      {% for img in room.images.all %}
+      <div class="carousel-item {% if forloop.first %}active{% endif %}">
+        <img src="{{ img.image.url }}" class="d-block w-100" style="height:200px; object-fit:cover;">
+      </div>
+      {% endfor %}
+    </div>
+    {% if room.images.count > 1 %}
+    <button class="carousel-control-prev" type="button" data-bs-target="#carousel{{ room.id }}" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carousel{{ room.id }}" data-bs-slide="next">
+      <span class="carousel-control-next-icon"></span>
+    </button>
+    {% endif %}
+  </div>
+{% else %}
+  <img src="{% static 'default_room.jpg' %}" class="d-block w-100" style="height:200px; object-fit:cover;">
+{% endif %}
+
 
         <!-- Room Details -->
         <div class="card-body">

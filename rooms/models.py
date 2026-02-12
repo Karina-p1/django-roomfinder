@@ -34,6 +34,8 @@ class Room(models.Model):
     # Detailed description of the room
     description = models.TextField()
 
+    image = models.ImageField(upload_to='rooms/')  # Cloudinary handles storage
+
     # Monthly price of the room (only positive values allowed)
     price = models.PositiveIntegerField()
 
@@ -68,3 +70,55 @@ class RoomImage(models.Model):
     room = models.ForeignKey(
         Room, related_name='images', on_delete=models.CASCADE)
     image = models.ImageField(upload_to='rooms/')
+
+    def __str__(self):
+        return f"Image for {self.room.title}"
+
+# Booking model to store room bookings made by users
+
+
+class Booking(models.Model):
+    # Define the possible statuses of a booking
+    # 'Pending' → booking made but not yet approved
+    # 'Approved' → booking approved by room owner
+    # 'Rejected' → booking rejected by room owner
+    STATUS_CHOICES = [
+        ('Pending', 'Pending'),
+        ('Approved', 'Approved'),
+        ('Rejected', 'Rejected'),
+    ]
+
+    # Link the booking to a specific room
+    # One room can have multiple bookings
+    # If the room is deleted, all its bookings are deleted (CASCADE)
+    room = models.ForeignKey(
+        Room,
+        on_delete=models.CASCADE,
+        related_name='bookings'  # Allows accessing all bookings of a room: room.bookings.all()
+    )
+
+    # Link the booking to the user who made it
+    # One user can have multiple bookings
+    # If the user is deleted, all their bookings are deleted
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='bookings'  # Allows accessing all bookings by a user: user.bookings.all()
+    )
+
+    # Automatically store the timestamp when the booking is created
+    booked_at = models.DateTimeField(auto_now_add=True)
+
+    # Store the current status of the booking
+    # Choices limit the value to 'Pending', 'Approved', or 'Rejected'
+    # Default is 'Pending' when a booking is first created
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default='Pending'
+    )
+
+    # Define a human-readable string representation of a booking
+    # Useful for Django admin and debugging
+    def __str__(self):
+        return f"{self.user.username} → {self.room.title} ({self.status})"

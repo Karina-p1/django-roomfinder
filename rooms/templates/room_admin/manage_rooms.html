@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="mb-4">Manage Rooms</h2>
+
+<a href="{% url 'add_room' %}" class="btn btn-primary mb-3">Add Room</a>
+
+<table class="table table-bordered bg-white">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Price</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for room in rooms %}
+    <tr>
+      <td>{{ room.title }}</td>
+      <td>${{ room.price }}</td>
+      <td>
+        <a href="{% url 'edit_room' room.id %}" class="btn btn-warning btn-sm">Edit</a>
+<a href="{% url 'delete_room' room.id %}" class="btn btn-sm btn-danger" onclick="return openDeleteModal(this.href);">Delete</a>
+
+      </td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="3">No rooms available.</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

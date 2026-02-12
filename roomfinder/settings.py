@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'rooms',
     'accounts',
     'dashboard',
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
 MIDDLEWARE = [
@@ -145,8 +147,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Media files (uploads)
-MEDIA_URL = '/media/'                      # URL to access media files
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Path to store media files
+#MEDIA_URL = '/media/'                       URL to access media files
+#MEDIA_ROOT = os.path.join(BASE_DIR, 'media')   Path to store media files
 
 LOGIN_URL = '/accounts/login/'          # where @login_required redirects
 LOGIN_REDIRECT_URL = '/'                # after login, go to homepage
@@ -154,3 +156,11 @@ LOGOUT_REDIRECT_URL = '/accounts/login/'  # after logout
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.environ.get('daq2yhtmw'),
+    'API_KEY': os.environ.get('353687548451496'),
+    'API_SECRET': os.environ.get('9YShlBObXmvsQshyeYe1md86QXc'),
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
