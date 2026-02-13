@@ -34,7 +34,7 @@ class Room(models.Model):
     # Detailed description of the room
     description = models.TextField()
 
-    image = models.ImageField(upload_to='rooms/')  # Cloudinary handles storage
+    image = models.ImageField(upload_to="rooms/", null=True, blank=True) # Cloudinary handles storage
 
     # Monthly price of the room (only positive values allowed)
     price = models.PositiveIntegerField()
