@@ -145,8 +145,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Media files (uploads)
-#MEDIA_URL = '/media/'                       URL to access media files
-#MEDIA_ROOT = os.path.join(BASE_DIR, 'media')   Path to store media files
+MEDIA_URL = '/media/'                       #URL to access media files
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')   #Path to store media files
 
 LOGIN_URL = '/accounts/login/'          # where @login_required redirects
 LOGIN_REDIRECT_URL = '/'                # after login, go to homepage
