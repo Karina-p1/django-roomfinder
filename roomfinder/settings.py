@@ -22,8 +22,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-q^y&sx9he8y3jxh(n#5h1o+@ccg+-hf!&wnjtc9@iv$2)=(l3z'
+# # Django secret key (read from .env)
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -87,9 +87,7 @@ WSGI_APPLICATION = 'roomfinder.wsgi.application'
 #     }
 # }
 
-
-SECRET_KEY = os.getenv(
-    "SECRET_KEY", "django-insecure-q^y&sx9he8y3jxh(n#5h1o+@ccg+-hf!&wnjtc9@iv$2)=(l3z")
+# Debug mode (optional: read from .env)
 DEBUG = os.getenv("DEBUG", "False") == "True"
 
 DATABASES = {
@@ -97,7 +95,7 @@ DATABASES = {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": os.getenv("DB_NAME", "neondb"),
         "USER": os.getenv("DB_USER", "neondb_owner"),
-        "PASSWORD": os.getenv("DB_PASSWORD", "npg_X3ZwhrJO7piD"),
+        "PASSWORD": os.getenv("DB_PASSWORD"),
         "HOST": os.getenv("DB_HOST", "ep-icy-sea-ahntmauj-pooler.c-3.us-east-1.aws.neon.tech"),
         "PORT": os.getenv("DB_PORT", "5432"),
         "OPTIONS": {
@@ -158,9 +156,9 @@ LOGOUT_REDIRECT_URL = '/accounts/login/'  # after logout
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.environ.get('daq2yhtmw'),
-    'API_KEY': os.environ.get('353687548451496'),
-    'API_SECRET': os.environ.get('9YShlBObXmvsQshyeYe1md86QXc'),
+    'CLOUD_NAME': os.environ.get('CLOUD_NAME'),
+    'API_KEY': os.environ.get('API_KEY'),
+    'API_SECRET': os.environ.get('API_SECRET'),
 }
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
