@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 # User model is used for authentication (login/register users)
 
 # Room model represents a room listing in the database
-
+from cloudinary.models import CloudinaryField
 
 class Room(models.Model):
 
@@ -34,7 +34,7 @@ class Room(models.Model):
     # Detailed description of the room
     description = models.TextField()
 
-    image = models.ImageField(upload_to="rooms/", null=True, blank=True) # Cloudinary handles storage
+    image = CloudinaryField('image', null=True, blank=True)  # changed here
 
     # Monthly price of the room (only positive values allowed)
     price = models.PositiveIntegerField()
@@ -69,7 +69,7 @@ class Room(models.Model):
 class RoomImage(models.Model):
     room = models.ForeignKey(
         Room, related_name='images', on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='rooms/')
+    image = CloudinaryField('image')  # changed here
 
     def __str__(self):
         return f"Image for {self.room.title}"
