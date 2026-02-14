@@ -17,7 +17,7 @@
     {% for room in rooms %}
     <tr>
       <td>{{ room.title }}</td>
-      <td>${{ room.price }}</td>
+      <td>Rs{{ room.price }}</td>
       <td>
         <a href="{% url 'edit_room' room.id %}" class="btn btn-warning btn-sm">Edit</a>
 <a href="{% url 'delete_room' room.id %}" class="btn btn-sm btn-danger" onclick="return openDeleteModal(this.href);">Delete</a>
